@@ -14,12 +14,23 @@ public class Main {
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(filePath))) {
 
             String line;
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
+                line = line.trim();
 
-                String name = parts[0];
-                int ranking = Integer.parseInt(parts[1]);
+                if (firstLine) {
+                    firstLine = false;
+                    if (line.toLowerCase().startsWith("nickname")) {
+                        continue;
+                    }
+                }
+
+                if (line.isEmpty()) continue;
+
+                String[] parts = line.split(",");
+                String name = parts[0].trim();
+                int ranking = Integer.parseInt(parts[1].trim());
 
                 tree.insert(new Player(name, ranking));
             }
